@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 
-import { useFetch } from "../../hooks/useFetch";
+import "./Container.css";
 
+import { useFetch } from "../../hooks/useFetch";
 import {
   getCurrentTime,
   getDay,
@@ -11,6 +12,8 @@ import {
   getTideStatus,
   getSpanTimeTide,
 } from "../utils/utils";
+
+import { Tide } from "./Tide";
 
 export const Container: React.FC = () => {
   const jsonFileName = getMonthAndYearFilenameJson();
@@ -58,7 +61,7 @@ export const Container: React.FC = () => {
         previousDayTides,
         nextDayTides
       );
-      debugger;
+
       tides[i].active = true;
       //const el = document.createElement("div");
       //el.id = "selectedTide";
@@ -83,19 +86,14 @@ export const Container: React.FC = () => {
     }
   }
   //   setCSSTides(tideIndex, dayTides.length);
-  debugger;
 
   return (
-    <div className="container">
+    <div className="mainContainer">
       <div>Json: {jsonFileName}</div>
       <div style={{ display: "flex", flexDirection: "column" }}>
-        {tides.map((t) => {
-          return (
-            <span>
-              {t.text} - {t.active ? "true" : "false"}
-            </span>
-          );
-        })}
+        {tides.map((t) => (
+          <Tide text={t.text} active={t.active} />
+        ))}
       </div>
     </div>
   );

@@ -1,0 +1,5 @@
+.divHeader {
+  display: flex;
+  height: 10%;
+  align-items: center;
+}
