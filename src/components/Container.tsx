@@ -46,7 +46,6 @@ export const Container: React.FC = () => {
   let tides = [];
 
   for (let i = -1; i < dayTides.length; ++i) {
-    const tideElement = document.getElementById("marea" + (i + 1).toString());
     if (i >= 0) {
       // tideElement.appendChild(getSpanTimeTide(dayTides[i]));
       // tideElement.classList.add("selectedTide");
@@ -85,14 +84,44 @@ export const Container: React.FC = () => {
       //createManometer(percentage, goingDown);
     }
   }
-  //   setCSSTides(tideIndex, dayTides.length);
+
+  const setCSSTides = () => {
+    const numberOfTides = tides.length;
+    const HEIGHT_HEADER = 13;
+    const HEIGHT_SECUNDARY_TIDE = 3;
+
+    // const initialTide = document.getElementById("marea0");
+    let mainTideHeight = -1;
+    if (tideIndex != -1) {
+      mainTideHeight =
+        100 - HEIGHT_HEADER - (numberOfTides - 1) * HEIGHT_SECUNDARY_TIDE;
+      // initialTide.style.height = 0;
+    } else {
+      mainTideHeight =
+        100 - HEIGHT_HEADER - numberOfTides * HEIGHT_SECUNDARY_TIDE;
+      // initialTide.style.height = `${mainTideHeight}vh`;
+      tides[0].height = mainTideHeight;
+    }
+
+    for (let index = 0; index < numberOfTides; ++index) {
+      const tideElement = document.getElementById(`marea${index + 1}`);
+      if (index === tideIndex) {
+        // tideElement.style.height = `${mainTideHeight}vh`;
+        tides[index].height = mainTideHeight;
+      } else {
+        // tideElement.style.height = `${HEIGHT_SECUNDARY_TIDE}vh`;
+        tides[index].height = HEIGHT_SECUNDARY_TIDE;
+      }
+    }
+  };
+  setCSSTides();
 
   return (
     <div className="mainContainer">
       <div>Json: {jsonFileName}</div>
-      <div style={{ display: "flex", flexDirection: "column" }}>
+      <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
         {tides.map((t) => (
-          <Tide text={t.text} active={t.active} />
+          <Tide text={t.text} active={t.active} height={t.height} />
         ))}
       </div>
     </div>
